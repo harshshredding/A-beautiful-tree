@@ -7,33 +7,6 @@ public class Tree {
 		this.root = new TreeNode(value);
 	}
 	
-	public Tree(int[] input) {
-		for(int i = 0; i < input.length; i++) {
-			insert(input[i]);
-		}
-	}
-	
-	
-	public void insert(int data) {
-		insert(data, this.root);
-	}
-	
-	public void insert(int data, TreeNode current) {
-		if(this.root == null) {
-			this.root = new TreeNode(data);
-		}else {
-			if(data <= current.data && current.left == null) {
-				current.left = new TreeNode(data);
-			}else if(data <= current.data) {
-				insert(data, current.left);
-			}else if(data > current.data && current.right == null) {
-				current.right = new TreeNode(data);
-			}else {
-				insert(data, current.right);
-			}
-		}
-	}
-	
 	public int height() {
 		return height(this.root);
 	}
@@ -96,78 +69,7 @@ public class Tree {
 		}
 	}
 	
-	public void AVLInsert(int num) {
-		this.root = AVLInsert(num, this.root);
-	}
-	
-	public TreeNode AVLInsert(int num, TreeNode current) {
-		if(current == null) {
-			return new TreeNode(num);
-		}
 
-		if(current.data < num) {
-			
-			current.right = AVLInsert(num, current.right);
-			if(current.right == null) {
-				current.rightHeight = 0;
-			}else {
-				current.rightHeight = height(current.right) + 1;
-			}
-			if(current.left == null) {
-				current.leftHeight = 0;
-			}else {
-				current.leftHeight = height(current.left) + 1;
-			}
-
-			if(Math.abs(current.rightHeight - current.leftHeight) >= 2) {
-				if(current.right.right == null) {
-					current.right.rightHeight = 0;
-				}else {
-					current.right.rightHeight = height(current.right.right) + 1;
-				}
-				if(current.right.left == null) {
-					current.right.leftHeight = 0;
-				}else {
-					current.right.leftHeight = height(current.right.left) + 1;
-				}
-				if(current.right.rightHeight < current.right.leftHeight) {
-					current.right = rotateRight(current.right);
-				}
-				return rotateLeft(current);
-			}
-		}else {
-			
-			current.left = AVLInsert(num, current.left);
-			if(current.right == null) {
-				current.rightHeight = 0;
-			}else {
-				current.rightHeight = height(current.right) + 1;
-			}
-			if(current.left == null) {
-				current.leftHeight = 0;
-			}else {
-				current.leftHeight = height(current.left) + 1;
-			}
-			if(Math.abs(current.leftHeight - current.rightHeight) >= 2) {
-				
-				if(current.left.left == null) {
-					current.left.leftHeight = 0;
-				}else {
-					current.left.leftHeight = height(current.left.left) + 1;
-				}
-				if(current.left.right == null) {
-					current.left.rightHeight = 0;
-				}else {
-					current.left.rightHeight = height(current.left.right) + 1;
-				}
-				if(current.left.leftHeight < current.left.rightHeight) {
-					current.left = rotateLeft(current.left);
-				}
-				return rotateRight(current);
-			}
-		}
-		return current;
-	}
 	
 	public String middleSpacing(int level, int height, String spacing) {
 		String result = spacing;
@@ -178,48 +80,7 @@ public class Tree {
 	}
 	
 	
-	public void delete(int n) {
-		this.root = delete1(n, this.root);
-	}
-	
-	public TreeNode rotateRight(TreeNode node) {
-		TreeNode left = node.left;
-		node.left = left.right;
-		left.right = node;
-		return left;
-	}
-	
-	public TreeNode rotateLeft(TreeNode node) {
-		TreeNode right = node.right;
-		node.right = right.left;
-		right.left = node;
-		return right;
-	}
-	
-	public TreeNode delete1(int value, TreeNode current) {
-		if(current == null) {
-			return null;
-		}
-		if(current.data < value) {
-			current.right = delete1(value, current.right);
-		}else if(current.data > value) {
-			current.left = delete1(value, current.left);
-		}else {
-			if(current.left == null && current.right == null) {
-				return null;
-			}else if(current.left == null) {
-				return current.right;
-			}else if(current.right == null) {
-				return current.left;
-			}else {
-				TreeNode Right = current.right;
-				Right.right = delete1(Right.data, Right);
-				Right.left = current.left;
-				return Right;
-			}
-		}
-		return current;
-	}
+
 	
 	public int[] makeArray() {
 		int height = height();
